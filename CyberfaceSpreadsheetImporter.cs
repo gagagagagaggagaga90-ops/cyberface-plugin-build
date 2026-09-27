@@ -229,7 +229,7 @@ namespace CyberfaceSpreadsheetImporter
             _grid.Columns.Add(new DataGridTextColumn { Header = "Pos", Binding = new Binding("Position"), Width = 65, IsReadOnly = true });
             _grid.Columns.Add(new DataGridTextColumn { Header = "Name", Binding = new Binding("Name"), Width = 190, IsReadOnly = true });
             _grid.Columns.Add(new DataGridTextColumn { Header = "Dupe source", Binding = new Binding("Dupe"), Width = 190, IsReadOnly = true });
-            _grid.Columns.Add(new DataGridTextColumn { Header = "Generated asset name", Binding = new Binding("NewAsset", BindingMode.TwoWay, UpdateSourceTrigger=UpdateSourceTrigger.PropertyChanged), Width = 220 });
+            _grid.Columns.Add(new DataGridTextColumn { Header = "Generated asset name", Binding = new Binding("NewAsset") { Mode = BindingMode.TwoWay, UpdateSourceTrigger = UpdateSourceTrigger.PropertyChanged }, Width = 220 });
             _grid.Columns.Add(new DataGridTextColumn { Header = "Destination folder", Binding = new Binding("TargetFolder"), Width = 275, IsReadOnly = true });
             _grid.Columns.Add(new DataGridTextColumn { Header = "Strandbind_hair", Binding = new Binding("StrandbindHair"), Width = 190, IsReadOnly = true });
             Grid.SetRow(_grid, 2);

@@ -21,15 +21,14 @@ using System.Windows.Threading;
 using System.Xml.Linq;
 using Frosty.Core;
 using Frosty.Core.Attributes;
-using Frosty.Core.Controls;
 
 [assembly: AssemblyTitle("Cyberface Spreadsheet Importer")]
 [assembly: AssemblyDescription("Spreadsheet-driven Madden 27 cyberface creation")]
-[assembly: AssemblyVersion("1.0.3.0")]
-[assembly: AssemblyFileVersion("1.0.3.0")]
+[assembly: AssemblyVersion("1.0.4.0")]
+[assembly: AssemblyFileVersion("1.0.4.0")]
 [assembly: PluginDisplayName("Cyberface Spreadsheet Importer")]
 [assembly: PluginAuthor("Custom MMC tools")]
-[assembly: PluginVersion("1.0.3")]
+[assembly: PluginVersion("1.0.4")]
 [assembly: RegisterMenuExtension(typeof(CyberfaceSpreadsheetImporter.CyberfaceImporterMenu))]
 
 namespace CyberfaceSpreadsheetImporter

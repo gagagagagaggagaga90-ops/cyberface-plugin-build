@@ -18,10 +18,7 @@ $xml = Join-Path $framework 'System.Xml.Linq.dll'
 $zip = Join-Path $framework 'System.IO.Compression.dll'
 $zipfs = Join-Path $framework 'System.IO.Compression.FileSystem.dll'
 
-& $csc /nologo /target:library /platform:x64 /optimize+ /out:"$stubOut\FrostySdk.dll" "$root\stubs\FrostySdkStub.cs"
-if ($LASTEXITCODE -ne 0) { throw 'FrostySdk stub compilation failed.' }
-
-& $csc /nologo /target:library /platform:x64 /optimize+ /out:"$stubOut\FrostyCore.dll" /reference:"$stubOut\FrostySdk.dll" /reference:"$pf" /reference:"$pc" /reference:"$wb" "$root\stubs\FrostyCoreStub.cs"
+& $csc /nologo /target:library /platform:x64 /optimize+ /out:"$stubOut\FrostyCore.dll" /reference:"$pf" /reference:"$pc" /reference:"$wb" "$root\stubs\FrostyCoreStub.cs"
 if ($LASTEXITCODE -ne 0) { throw 'FrostyCore stub compilation failed.' }
 
 $out = Join-Path $outDir 'CyberfaceSpreadsheetImporter.dll'
@@ -34,7 +31,6 @@ $args = @(
     '/langversion:5',
     ('/out:' + $out),
     ('/reference:' + (Join-Path $stubOut 'FrostyCore.dll')),
-    ('/reference:' + (Join-Path $stubOut 'FrostySdk.dll')),
     ('/reference:' + $pf),
     ('/reference:' + $pc),
     ('/reference:' + $wb),

@@ -1,40 +1,18 @@
 using System;
-using System.Threading.Tasks;
 using System.Windows.Input;
-using FrostySdk.Managers;
-using FrostySdk.Managers.Entries;
 
 namespace Frosty.Core
 {
     public static class App
     {
-        public static AssetManager AssetManager { get; set; }
-        public static FrostyEditorWindow EditorWindow { get; set; }
-        public static FrostyLogger Logger { get; set; }
+        public static object AssetManager { get; set; }
+        public static object EditorWindow { get; set; }
+        public static object Logger { get; set; }
+        public static object SelectedAsset { get; set; }
+        public static string SelectedPath { get; set; }
     }
 
-    public class FrostyEditorWindow
-    {
-        public Frosty.Core.Controls.FrostyDataExplorer VisibleExplorer { get; set; }
-    }
-
-    public class FrostyLogger
-    {
-        public void Log(string message, params object[] args) { }
-        public void LogError(string message) { }
-    }
-
-    public abstract class MenuExtension
-    {
-        public abstract string TopLevelMenuName { get; }
-        public abstract string MenuItemName { get; }
-        public abstract Frosty.Core.Controls.RelayCommand MenuItemClicked { get; }
-    }
-}
-
-namespace Frosty.Core.Controls
-{
-    public class RelayCommand : ICommand
+    public sealed class RelayCommand : ICommand
     {
         private readonly Action<object> _execute;
         public RelayCommand(Action<object> execute) { _execute = execute; }
@@ -43,10 +21,11 @@ namespace Frosty.Core.Controls
         public event EventHandler CanExecuteChanged { add { } remove { } }
     }
 
-    public class FrostyDataExplorer
+    public abstract class MenuExtension
     {
-        public string SelectedPath { get; set; }
-        public Task SelectAsset(EbxAssetEntry entry, bool open) { return Task.FromResult(0); }
+        public abstract string TopLevelMenuName { get; }
+        public abstract string MenuItemName { get; }
+        public abstract RelayCommand MenuItemClicked { get; }
     }
 }
 

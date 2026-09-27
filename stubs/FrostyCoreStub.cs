@@ -1,14 +1,15 @@
 using System;
 using System.Windows.Input;
-using FrostySdk.Managers;
 
 namespace Frosty.Core
 {
     public static class App
     {
-        public static AssetManager AssetManager { get; set; }
+        public static object AssetManager { get; set; }
         public static object EditorWindow { get; set; }
         public static object Logger { get; set; }
+        public static object SelectedAsset { get; set; }
+        public static string SelectedPath { get; set; }
     }
 
     public sealed class RelayCommand : ICommand

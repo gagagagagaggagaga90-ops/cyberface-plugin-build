@@ -88,7 +88,7 @@ namespace CyberfaceSpreadsheetImporter
         public static IEnumerable<object> EnumerateEbx()
         {
             object am = AssetManager;
-            if (am == null) yield break;
+            if (am == null) return new List<object>();
             MethodInfo[] methods = am.GetType().GetMethods(BindingFlags.Instance | BindingFlags.Public | BindingFlags.NonPublic)
                 .Where(m => m.Name == "EnumerateEbx").OrderByDescending(m => m.GetParameters().Length).ToArray();
             Exception last = null;
@@ -100,13 +100,15 @@ namespace CyberfaceSpreadsheetImporter
                     object result = m.Invoke(am, args);
                     IEnumerable en = result as IEnumerable;
                     if (en == null) continue;
-                    foreach (object x in en) if (x != null) yield return x;
-                    yield break;
+                    List<object> list = new List<object>();
+                    foreach (object x in en) if (x != null) list.Add(x);
+                    return list;
                 }
                 catch (TargetInvocationException ex) { last = ex.InnerException ?? ex; }
                 catch (Exception ex) { last = ex; }
             }
             if (last != null) throw new InvalidOperationException("Could not enumerate EBX assets.", last);
+            return new List<object>();
         }
 
         public static object GetEbxEntry(string name)

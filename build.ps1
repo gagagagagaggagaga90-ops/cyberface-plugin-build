@@ -1,17 +1,10 @@
 $ErrorActionPreference = 'Stop'
 
 $root = $PSScriptRoot
-$srcZip = Join-Path $root 'source.zip'
-$srcRoot = Join-Path $root 'src'
 $stubOut = Join-Path $root 'stubbin'
 $outDir = Join-Path $root 'out'
-
-if (Test-Path $srcRoot) { Remove-Item $srcRoot -Recurse -Force }
-New-Item -ItemType Directory -Path $srcRoot | Out-Null
 New-Item -ItemType Directory -Path $stubOut -Force | Out-Null
 New-Item -ItemType Directory -Path $outDir -Force | Out-Null
-
-Expand-Archive -LiteralPath $srcZip -DestinationPath $srcRoot -Force
 
 $framework = Join-Path $env:WINDIR 'Microsoft.NET\Framework64\v4.0.30319'
 $csc = Join-Path $framework 'csc.exe'
@@ -31,10 +24,7 @@ if ($LASTEXITCODE -ne 0) { throw 'FrostySdk stub compilation failed.' }
 & $csc /nologo /target:library /platform:x64 /optimize+ /out:"$stubOut\FrostyCore.dll" /reference:"$stubOut\FrostySdk.dll" /reference:"$pf" /reference:"$pc" /reference:"$wb" "$root\stubs\FrostyCoreStub.cs"
 if ($LASTEXITCODE -ne 0) { throw 'FrostyCore stub compilation failed.' }
 
-$projectRoot = Join-Path $srcRoot 'CyberfaceSpreadsheetImporter_v1.0.1'
-$sourceFiles = Get-ChildItem -LiteralPath (Join-Path $projectRoot 'Source') -Filter '*.cs' | ForEach-Object { $_.FullName }
 $out = Join-Path $outDir 'CyberfaceSpreadsheetImporter.dll'
-
 $args = @(
     '/nologo',
     '/target:library',
@@ -51,9 +41,9 @@ $args = @(
     ('/reference:' + $sx),
     ('/reference:' + $xml),
     ('/reference:' + $zip),
-    ('/reference:' + $zipfs)
+    ('/reference:' + $zipfs),
+    (Join-Path $root 'CyberfaceSpreadsheetImporter.cs')
 )
-$args += $sourceFiles
 
 & $csc @args
 if ($LASTEXITCODE -ne 0) { throw 'CyberfaceSpreadsheetImporter compilation failed.' }

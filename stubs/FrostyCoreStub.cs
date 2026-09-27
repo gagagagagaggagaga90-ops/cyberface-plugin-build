@@ -1,17 +1,20 @@
 using System;
-using System.Reflection;
 using System.Windows.Input;
-
-[assembly: AssemblyVersion("1.0.0.0")]
-[assembly: AssemblyFileVersion("1.0.0.0")]
+using FrostySdk.Managers;
 
 namespace Frosty.Core
 {
-    public class RelayCommand : ICommand
+    public static class App
+    {
+        public static AssetManager AssetManager { get; set; }
+        public static object EditorWindow { get; set; }
+        public static object Logger { get; set; }
+    }
+
+    public sealed class RelayCommand : ICommand
     {
         private readonly Action<object> _execute;
         public RelayCommand(Action<object> execute) { _execute = execute; }
-        public RelayCommand(Action<object> execute, Predicate<object> canExecute) { _execute = execute; }
         public bool CanExecute(object parameter) { return true; }
         public void Execute(object parameter) { if (_execute != null) _execute(parameter); }
         public event EventHandler CanExecuteChanged { add { } remove { } }
@@ -19,11 +22,9 @@ namespace Frosty.Core
 
     public abstract class MenuExtension
     {
-        public virtual string TopLevelMenuName { get { return null; } }
-        public virtual string SubLevelMenuName { get { return null; } }
-        public virtual string MenuItemName { get { return null; } }
-        public virtual System.Windows.Media.ImageSource Icon { get { return null; } }
-        public virtual RelayCommand MenuItemClicked { get { return null; } }
+        public abstract string TopLevelMenuName { get; }
+        public abstract string MenuItemName { get; }
+        public abstract RelayCommand MenuItemClicked { get; }
     }
 }
 
